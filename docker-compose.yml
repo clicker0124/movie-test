@@ -1,0 +1,27 @@
+version: "3"
+services:
+  graphapi:
+    build:
+      context: ./movie-test-api
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./movie-test-api:/usr/src/app
+    depends_on:
+      - mongodb
+    command:
+      - "--mongo-uri=mongodb://mongodb:27017/movies"
+  mongodb:
+    image: "mongo"
+    ports:
+      - "27030:27017"
+  frontend:
+    build:
+      context: ./react-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./react-frontend:/usr/src/app
+

@@ -1,0 +1,3 @@
+.DS_Store
+react-frontend/node_modules/.cache/
+movie-test-api/node_modules
