@@ -44,10 +44,19 @@ async function start() {
       console.log(`GraphQl API running on port ${PORT}.`);
     });
 
-    await MovieModel.insertMany(initialMovies, { ordered: true });
-    await new UserModel({
-      ...initialAdminUser,
-    }).save();
+    const adminUser = await UserModel.findOne({
+      username: initialAdminUser.username,
+    });
+
+    if (!adminUser) {
+      await MovieModel.insertMany(initialMovies, { ordered: true });
+      await new UserModel({
+        ...initialAdminUser,
+      }).save();
+      console.log("Initial data inserted.");
+    } else {
+      console.log("Initial data already inserted.");
+    }
   } catch (err) {
     console.error(err);
     process.exit(1);
